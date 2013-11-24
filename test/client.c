@@ -39,10 +39,11 @@ void sighandler(int signal)
 int main()
 {
 	int16_t a2dval;
-	
-	if((spi_fd = mcp3008_spidev_open(SPI_DEVICE)) < 0)
+
+	spi_fd = mcp3008_spidev_open(SPI_DEVICE);
+	if(spi_fd < 0)
 	{
-		fprintf(stderr, "Unable to open device: %s", strerror(errno));
+		fprintf(stderr, "Unable to open spi device [%s]: %s\n", SPI_DEVICE, strerror(errno));
 		exit(-1);
 	}
 
@@ -50,7 +51,7 @@ int main()
 	{
 		if(mcp3008_read(&a2dval, spi_fd, CH0, 1) < 0)
 		{
-			fprintf(stderr, "Unable to read adc value: %s", strerror(errno));
+			fprintf(stderr, "Unable to read adc value: %s\n", strerror(errno));
 			exit(-1);
 		}
 		

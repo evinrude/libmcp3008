@@ -46,48 +46,48 @@ void __libmcp3008destroy(void);
 
 int mcp3008_spidev_open(char *spi_device)
 {
-	int spi_fd;
+	int spi_fd = open(spi_device, O_RDWR);
 
 	//open the device
-	if((spi_fd = open(spi_device, O_RDWR)) < 0)
+	if(spi_fd < 0)
 	{
-		return errno;
+		return -1;
 	}
 	
 	//set spi write mode
 	if(ioctl(spi_fd, SPI_IOC_WR_MODE, &SPI_SETTINGS.spi_mode) < 0)
 	{
-		return errno;
+		return -1;
 	}
 
 	//set spi read mode
 	if(ioctl(spi_fd, SPI_IOC_RD_MODE, &SPI_SETTINGS.spi_mode) < 0)
 	{
-		return errno;
+		return -1;
 	}
 
 	//set spi write bits per word
 	if(ioctl(spi_fd, SPI_IOC_WR_BITS_PER_WORD, &SPI_SETTINGS.spi_bits_per_word) < 0)
 	{
-		return errno;
+		return -1;
 	}
 
 	//set spi read bits per word
 	if(ioctl(spi_fd, SPI_IOC_RD_BITS_PER_WORD, &SPI_SETTINGS.spi_bits_per_word) < 0)
 	{
-		return errno;
+		return -1;
 	}
     
 	//set spi write clock speed
 	if(ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &SPI_SETTINGS.spi_clk_speed) < 0)
 	{
-		return errno;
+		return -1;
 	}
 
 	//set spi read clock speed
 	if(ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &SPI_SETTINGS.spi_clk_speed) < 0)
 	{
-		return errno;
+		return -1;
 	}
 
 	return spi_fd;
@@ -125,7 +125,7 @@ int mcp3008_read(int16_t *tenbitreading, int spi_fd, int mcp3008_channel, int si
 	if(single < 0 || single > 1)
 	{
 		errno = EINVAL;
-		return errno;
+		return -1;
 	}
 
 	data[0] = 0b00000001; //start bit
@@ -157,7 +157,7 @@ int __send_receive_bytes(int spi_fd,
 	if(!spi_fd)
 	{
 		errno = EINVAL;
-		return errno;
+		return -1;
 	}
 
 	return ioctl(spi_fd, SPI_IOC_MESSAGE(length), &spi);
