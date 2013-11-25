@@ -23,6 +23,9 @@ http://www.raspberry-projects.com/pi/programming-in-c/spi/using-the-spi-interfac
 ```c
 /** sample.c **/
 #include "libmcp3008.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 int main()
 {
   /** no error checking here, just a quick example **/
