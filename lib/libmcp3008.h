@@ -20,6 +20,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **/
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef LIBMCP3008_H
 	#define LIBMCP3008_H
 #endif
@@ -88,3 +91,6 @@ int __send_receive_bytes(int spi_fd,
 struct spi_ioc_transfer __create_spi_ioc_transfer(unsigned long tx_buf,
                                                   unsigned long rx_buf,
                                                   int length);
+#ifdef __cplusplus
+}
+#endif
